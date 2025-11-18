@@ -1,3 +1,4 @@
+# Matriz de dispersión para una columna objetivo
 def plot_matriz_dispersion(df, target_col="Addiction_Level", excluir_cols=None, n_cols=3):
     if excluir_cols is None:
         excluir_cols = [target_col, "AddiccionBinaria"]

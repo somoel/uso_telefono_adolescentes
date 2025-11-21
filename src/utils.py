@@ -3,14 +3,6 @@ import numpy as np
 
 
 def imprimir_separador(titulo: str = "", longitud: int = 60, caracter: str = "=") -> None:
-    """
-    Imprime un separador visual con un título opcional.
-
-    Args:
-        titulo: Título a mostrar en el separador
-        longitud: Longitud del separador
-        caracter: Caracter para el separador
-    """
     if titulo:
         print(f"\n{caracter * longitud}")
         print(f"{titulo.center(longitud)}")
@@ -20,29 +12,13 @@ def imprimir_separador(titulo: str = "", longitud: int = 60, caracter: str = "="
 
 
 def guardar_resultados_csv(df: pd.DataFrame, nombre_archivo: str, carpeta: str = "../data/") -> None:
-    """
-    Guarda un DataFrame en un archivo CSV.
 
-    Args:
-        df: DataFrame a guardar
-        nombre_archivo: Nombre del archivo (sin extensión)
-        carpeta: Carpeta donde guardar el archivo
-    """
     ruta_completa = f"{carpeta}{nombre_archivo}.csv"
     df.to_csv(ruta_completa, index=False)
-    print(f"✅ Resultados guardados en: {ruta_completa}")
+    print(f" Resultados guardados en: {ruta_completa}")
 
 
 def obtener_resumen_datos(df: pd.DataFrame) -> dict:
-    """
-    Obtiene un resumen completo del DataFrame.
-
-    Args:
-        df: DataFrame a resumir
-
-    Returns:
-        Diccionario con resumen de datos
-    """
     resumen = {
         'dimensiones': df.shape,
         'total_filas': len(df),
@@ -58,58 +34,44 @@ def obtener_resumen_datos(df: pd.DataFrame) -> dict:
 
 
 def imprimir_resumen_datos(df: pd.DataFrame) -> None:
-    """
-    Imprime un resumen formateado del DataFrame.
-
-    Args:
-        df: DataFrame a resumir
-    """
     resumen = obtener_resumen_datos(df)
 
     imprimir_separador("RESUMEN DEL DATASET")
-    print(f"📊 Dimensiones: {resumen['dimensiones']}")
-    print(f"📈 Total de filas: {resumen['total_filas']}")
-    print(f"📋 Total de columnas: {resumen['total_columnas']}")
-    print(f"💾 Uso de memoria: {resumen['memoria_uso_mb']:.2f} MB")
-    print(f"🔢 Valores duplicados: {resumen['valores_duplicados']}")
+    print(f" Dimensiones: {resumen['dimensiones']}")
+    print(f" Total de filas: {resumen['total_filas']}")
+    print(f" Total de columnas: {resumen['total_columnas']}")
+    print(f" Uso de memoria: {resumen['memoria_uso_mb']:.2f} MB")
+    print(f" Valores duplicados: {resumen['valores_duplicados']}")
 
-    print(f"\n📝 Columnas:")
+    print(f"\n Columnas:")
     for col in resumen['columnas']:
         print(f"   - {col}")
 
-    print(f"\n❌ Valores nulos:")
+    print(f"\n Valores nulos:")
     for col, nulos in resumen['valores_nulos'].items():
         if nulos > 0:
             print(f"   - {col}: {nulos}")
 
     if sum(resumen['valores_nulos'].values()) == 0:
-        print("   ✅ No hay valores nulos")
+        print("   No hay valores nulos")
 
     imprimir_separador()
 
 
 def exportar_metricas_modelo(metricas: dict, nombre_archivo: str, carpeta: str = "../data/") -> None:
-    """
-    Exporta las métricas de un modelo a un archivo CSV.
-
-    Args:
-        metricas: Diccionario con métricas del modelo
-        nombre_archivo: Nombre del archivo (sin extensión)
-        carpeta: Carpeta donde guardar el archivo
-    """
     # Convertir report a DataFrame
     if 'classification_report' in metricas:
         report_df = pd.DataFrame(metricas['classification_report']).transpose()
         ruta_completa = f"{carpeta}{nombre_archivo}_report.csv"
         report_df.to_csv(ruta_completa)
-        print(f"✅ Métricas guardadas en: {ruta_completa}")
+        print(f" Métricas guardadas en: {ruta_completa}")
 
     # Guardar confusion matrix
     if 'confusion_matrix' in metricas:
         cm_df = pd.DataFrame(metricas['confusion_matrix'])
         ruta_cm = f"{carpeta}{nombre_archivo}_confusion_matrix.csv"
         cm_df.to_csv(ruta_cm, index=False)
-        print(f"✅ Matriz de confusión guardada en: {ruta_cm}")
+        print(f" Matriz de confusión guardada en: {ruta_cm}")
 
 
 def calcular_metricas_adicionales(y_true, y_pred) -> dict:
